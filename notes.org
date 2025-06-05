@@ -1,0 +1,20 @@
+#+TITLE: 
+#+AUTHOR: ATTA
+#+STARTUP: overview
+#+OPTIONS: toc:2
+
+* Table of contents :toc:
+- [[#introduction][Introduction]]
+
+* Introduction
+
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'mypass';
+
+#+BEGIN_SRC sql
+SET GLOBAL validate_password.policy = LOW;
+SET GLOBAL validate_password.length = 6;
+
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'simple1';
+FLUSH PRIVILEGES;
+
+#+END_SRC 

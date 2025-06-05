@@ -1,0 +1,535 @@
+#+TITLE: SQL Tutorial
+#+PROPERTY: header-args :tangle ~/Projects/Databases/dbms/code/w3school/main.sql
+
+#+AUTHOR: ATTA
+#+STARTUP: overview
+#+OPTIONS: toc:3
+
+
+
+* Table of contents :toc:
+- [[#sql-intro][SQL Intro]]
+
+* SQL Intro
+
+
+#+BEGIN_SRC sql
+SELECT * FROM Customers
+SELECT CustomerName, City FROM Customers;
+SELECT DISTINCT Country FROM Customers;
+SELECT Country FROM Customers;
+SELECT COUNT(DISTINCT Country) FROM Customers;
+#+END_SRC 
+
+
+#+BEGIN_SRC sql
+SELECT DISTINCT column1, column2, ...
+FROM table_name;
+#+END_SRC 
+
+
+#+BEGIN_SRC sql
+SELECT COUNT(*) AS DistinctCountries 
+FROM (
+    SELECT DISTINCT Country 
+    FROM Customers
+) AS country_list;
+
+#+END_SRC 
+
+#+BEGIN_SRC sql
+SELECT Count(*) AS DistinctCountries
+FROM (SELECT DISTINCT Country FROM Customers);
+#+END_SRC 
+
+
+#+BEGIN_SRC sql
+SELECT column1, column2, ...
+FROM table_name
+WHERE condition;
+#+END_SRC 
+
+#+BEGIN_SRC sql
+SELECT * FROM Customers
+WHERE Country='Mexico';
+#+END_SRC 
+
+#+BEGIN_SRC sql
+
+SELECT * FROM Customers
+WHERE CustomerID=1;
+
+SELECT * FROM Customers
+WHERE CustomerID > 80;
+
+SELECT * FROM Products
+ORDER BY Price;
+#+END_SRC 
+SELECT * FROM products
+ORDER BY Price;
+
+#+BEGIN_SRC sql
+ALTER TABLE products RENAME TO Products;
+#+END_SRC 
+
+
+#+BEGIN_SRC sql
+SELECT * FROM Products
+ORDER BY Price DESC;
+#+END_SRC 
+
+#+BEGIN_SRC sql
+SELECT * FROM Products
+ORDER BY ProductName;
+#+END_SRC 
+
+
+#+BEGIN_SRC sql
+SELECT * FROM Products
+ORDER BY ProductName DESC;
+#+END_SRC 
+
+
+#+BEGIN_SRC sql
+SELECT * FROM Customers
+ORDER BY Country, CustomerName;
+#+END_SRC 
+
+
+#+BEGIN_SRC sql
+SELECT * FROM Customers
+ORDER BY Country ASC, CustomerName DESC;
+#+END_SRC 
+
+
+#+BEGIN_SRC sql
+SELECT *
+FROM Customers
+WHERE Country = 'Spain' AND CustomerName LIKE 'G%';
+#+END_SRC 
+
+#+BEGIN_SRC sql
+SELECT * FROM Customers
+WHERE Country = 'Brazil'
+AND City = 'Rio de Janeiro'
+AND CustomerID > 50;
+#+END_SRC 
+
+
+#+BEGIN_SRC sql
+SELECT * FROM Customers
+WHERE Country = 'Spain' AND (CustomerName LIKE 'G%' OR CustomerName LIKE 'R%');
+#+END_SRC 
+
+
+#+BEGIN_SRC sql
+SELECT *
+FROM Customers
+WHERE Country = 'Germany' OR Country = 'Spain';
+#+END_SRC 
+
+#+BEGIN_SRC sql
+SELECT * FROM Customers
+WHERE City = 'Berlin' OR CustomerName LIKE 'G%' OR Country = 'Norway';
+#+END_SRC 
+
+
+#+BEGIN_SRC sql
+SELECT * FROM Customers
+WHERE Country = 'Spain' AND (CustomerName LIKE 'G%' OR CustomerName LIKE 'R%');
+#+END_SRC 
+
+#+BEGIN_SRC sql
+SELECT * FROM Customers
+WHERE Country = 'Spain' AND CustomerName LIKE 'G%' OR CustomerName LIKE 'R%';
+#+END_SRC 
+
+#+BEGIN_SRC sql
+SELECT * FROM Customers
+WHERE NOT Country = 'Spain';
+#+END_SRC 
+
+
+#+BEGIN_SRC sql
+SELECT * FROM Customers
+WHERE CustomerName NOT LIKE 'A%';
+#+END_SRC 
+
+
+#+BEGIN_SRC sql
+SELECT * FROM Customers
+WHERE CustomerID NOT BETWEEN 10 AND 60;
+#+END_SRC 
+
+#+BEGIN_SRC sql
+SELECT * FROM Customers
+WHERE City NOT IN ('Paris', 'London');
+#+END_SRC 
+
+
+#+BEGIN_SRC sql
+SELECT * FROM Customers
+WHERE NOT CustomerID > 50;
+#+END_SRC 
+
+
+#+BEGIN_SRC sql
+SELECT * FROM Customers
+WHERE NOT CustomerId < 50; 
+#+END_SRC 
+
+
+#+BEGIN_SRC sql
+INSERT INTO Customers (CustomerName, ContactName, Address, City, PostalCode, Country)
+VALUES ('Cardinal', 'Tom B. Erichsen', 'Skagen 21', 'Stavanger', '4006', 'Norway');
+#+END_SRC 
+
+
+#+BEGIN_SRC sql
+INSERT INTO Customers (CustomerName, City, Country)
+VALUES ('Cardinal', 'Stavanger', 'Norway');
+#+END_SRC 
+
+
+#+BEGIN_SRC sql
+INSERT INTO Customers (CustomerName, ContactName, Address, City, PostalCode, Country)
+VALUES
+('Cardinal', 'Tom B. Erichsen', 'Skagen 21', 'Stavanger', '4006', 'Norway'),
+('Greasy Burger', 'Per Olsen', 'Gateveien 15', 'Sandnes', '4306', 'Norway'),
+('Tasty Tee', 'Finn Egan', 'Streetroad 19B', 'Liverpool', 'L1 0AA', 'UK');
+#+END_SRC 
+
+#+BEGIN_SRC sql
+SELECT CustomerName, ContactName, Address
+FROM Customers
+WHERE Contactname IS NULL; 
+-- WHERE Address IS NULL; 
+#+END_SRC 
+
+
+
+
+#+BEGIN_SRC sql
+UPDATE Customers
+SET ContactName = 'Alfred Schmidt', City= 'Frankfurt'
+WHERE CustomerID = 1; 
+#+END_SRC 
+
+#+BEGIN_SRC sql
+UPDATE Customers
+SET ContactName='Juan'
+WHERE Country='Mexico'; 
+#+END_SRC 
+
+#+BEGIN_SRC sql
+UPDATE Customers
+SET ContactName='Juan';
+#+END_SRC 
+
+
+#+BEGIN_SRC sql
+DELETE FROM Customers WHERE CustomerName='Alfreds Futterkiste';
+-- DELETE FROM Customers;
+-- DROP TABLE Customers;
+#+END_SRC 
+
+
+#+BEGIN_SRC sql
+-- SELECT TOP 3 * FROM Customers;
+SELECT * FROM Customers LIMIT 3;
+
+#+END_SRC 
+
+#+BEGIN_SRC sql
+SELECT * FROM Customers
+FETCH FIRST 3 ROWS ONLY; 
+#+END_SRC 
+
+
+#+BEGIN_SRC sql
+SELECT TOP 50 PERCENT * FROM Customers;
+#+END_SRC 
+
+
+#+BEGIN_SRC sql
+SELECT * FROM Customers
+FETCH FIRST 50 PERCENT ROWS ONLY; 
+#+END_SRC 
+
+
+
+#+BEGIN_SRC sql
+SELECT TOP 3 * FROM Customers
+WHERE Country='Germany'; 
+#+END_SRC 
+
+#+BEGIN_SRC sql
+SELECT * FROM Customers
+WHERE Country='Germany'
+LIMIT 3; 
+#+END_SRC 
+
+
+#+BEGIN_SRC sql
+SELECT * FROM Customers
+WHERE Country='Germany'
+FETCH FIRST 3 ROWS ONLY; 
+#+END_SRC 
+
+
+
+#+BEGIN_SRC sql
+SELECT TOP 3 * FROM Customers
+ORDER BY CustomerName DESC;
+#+END_SRC 
+
+
+#+BEGIN_SRC sql
+  SELECT * FROM Customers
+ORDER BY CustomerName DESC
+LIMIT 3;
+#+END_SRC 
+
+
+#+BEGIN_SRC sql
+  SELECT * FROM Customers
+ORDER BY CustomerName DESC
+FETCH FIRST 3 ROWS ONLY;
+#+END_SRC 
+
+
+
+#+BEGIN_SRC sql
+SELECT MIN(Price)
+FROM Products;
+#+END_SRC 
+
+
+#+BEGIN_SRC sql
+  SELECT MAX(Price)
+FROM Products;
+#+END_SRC 
+
+
+#+BEGIN_SRC sql
+SELECT MIN(Price) AS SmallestPrice
+FROM Products; 
+#+END_SRC 
+
+
+
+#+BEGIN_SRC sql
+SELECT MIN(Price) AS SmallestPrice, CategoryID
+FROM Products
+GROUP BY CategoryID;
+
+#+END_SRC 
+
+
+
+
+#+BEGIN_SRC sql
+SELECT COUNT(*)
+FROM Products;
+#+END_SRC 
+
+
+
+
+#+BEGIN_SRC sql
+SELECT COUNT(ProductName)
+FROM Products;
+#+END_SRC 
+
+
+
+
+#+BEGIN_SRC sql
+SELECT COUNT(ProductID)
+FROM Products
+WHERE Price > 20;
+#+END_SRC 
+
+
+
+
+#+BEGIN_SRC sql
+SELECT COUNT(DISTINCT Price)
+FROM Products;
+#+END_SRC 
+
+
+
+
+#+BEGIN_SRC sql
+SELECT COUNT(*) AS [Number of records]
+FROM Products;
+#+END_SRC 
+
+
+
+
+#+BEGIN_SRC sql
+SELECT COUNT(*) AS [Number of records], CategoryID
+FROM Products
+GROUP BY CategoryID;
+#+END_SRC 
+
+ALTER TABLE order_details RENAME TO OrderDetails;
+
+
+#+BEGIN_SRC sql
+SELECT SUM(Quantity)
+FROM OrderDetails;
+SELECT SUM(Quantity)
+FROM OrderDetails
+WHERE ProductId = 11;
+#+END_SRC 
+
+
+
+
+#+BEGIN_SRC sql
+SELECT SUM(Quantity) AS total
+FROM OrderDetails;
+#+END_SRC 
+
+
+
+
+#+BEGIN_SRC sql
+SELECT OrderID, SUM(Quantity) AS [Total Quantity]
+FROM OrderDetails
+GROUP BY OrderID;
+#+END_SRC 
+
+#+BEGIN_SRC sql
+SELECT SUM(Quantity * 10)
+FROM OrderDetails; 
+#+END_SRC 
+
+
+#+BEGIN_SRC sql
+SELECT SUM(Price * Quantity)
+FROM OrderDetails
+LEFT JOIN Products ON OrderDetails.ProductID = Products.ProductID;
+#+END_SRC 
+
+
+#+BEGIN_SRC sql
+SELECT AVG(Price)
+FROM Products; 
+#+END_SRC 
+
+
+#+BEGIN_SRC sql
+SELECT AVG(Price)
+FROM Products
+WHERE CategoryID = 1; 
+#+END_SRC 
+
+
+#+BEGIN_SRC sql
+ELECT AVG(Price) AS [average price]
+FROM Products;
+#+END_SRC 
+
+
+#+BEGIN_SRC sql
+SELECT * FROM Products
+WHERE price > (SELECT AVG(price) FROM Products);
+#+END_SRC 
+
+
+#+BEGIN_SRC sql
+SELECT AVG(Price) AS AveragePrice, CategoryID
+FROM Products
+GROUP BY CategoryID;
+#+END_SRC 
+
+
+#+BEGIN_SRC sql
+SELECT * FROM Customers
+WHERE CustomerName LIKE 'a%';
+#+END_SRC 
+
+
+#+BEGIN_SRC sql
+SELECT * FROM Customers
+WHERE city LIKE 'L_nd__'; 
+#+END_SRC 
+
+
+#+BEGIN_SRC sql
+SELECT * FROM Customers
+WHERE city LIKE '%L%';
+#+END_SRC 
+
+
+#+BEGIN_SRC sql
+SELECT * FROM Customers
+WHERE CustomerName LIKE 'La%';
+#+END_SRC 
+
+
+#+BEGIN_SRC sql
+SELECT * FROM Customers
+WHERE CustomerName LIKE 'a%' OR CustomerName LIKE 'b%';
+#+END_SRC 
+
+
+#+BEGIN_SRC sql
+SELECT * FROM Customers
+WHERE CustomerName LIKE '%a';
+#+END_SRC 
+
+
+#+BEGIN_SRC sql
+SELECT * FROM Customers
+WHERE CustomerName LIKE 'b%s';
+#+END_SRC 
+
+
+#+BEGIN_SRC sql
+SELECT * FROM Customers
+WHERE CustomerName LIKE '%or%';
+#+END_SRC 
+
+#+BEGIN_SRC sql
+SELECT * FROM Customers
+WHERE CustomerName LIKE 'a__%';
+#+END_SRC 
+
+#+BEGIN_SRC sql
+SELECT * FROM Customers
+WHERE CustomerName LIKE '_r%';
+#+END_SRC 
+
+#+BEGIN_SRC sql
+SELECT * FROM Customers
+WHERE Country LIKE 'Spain';
+#+END_SRC 
+
+#+BEGIN_SRC sql
+  
+#+END_SRC 
+
+#+BEGIN_SRC sql
+  
+#+END_SRC 
+
+#+BEGIN_SRC sql
+  
+#+END_SRC 
+
+#+BEGIN_SRC sql
+  
+#+END_SRC 
+
+#+BEGIN_SRC sql
+  
+#+END_SRC 
+
+#+BEGIN_SRC sql
+  
+#+END_SRC 

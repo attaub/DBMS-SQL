@@ -1,0 +1,413 @@
+#+TITLE: 
+#+AUTHOR: ATTA
+#+STARTUP: overview
+#+OPTIONS: toc:2
+
+* Table of contents :toc:
+- [[#chapter-1-the-worlds-of-database-systems][Chapter 1: The Worlds of Database Systems]]
+- [[#chapter-2-the-relational-model-of-data][Chapter 2: The Relational Model of Data]]
+  - [[#basics-of-the-relational-model][Basics of the Relational Model]]
+  - [[#defining-a-relation-schema-in-sql][Defining a Relation Schema in SQL]]
+  - [[#an-algebraic-query-language][An Algebraic Query Language]]
+  - [[#constraints-on-relations][Constraints on Relations]]
+- [[#chapter-3][Chapter 3:]]
+
+* Chapter 1: The Worlds of Database Systems
+Databases are essential (Google, Yahoo!, Amazon.com)
+Database behind the scenes serving up the information you request
+All important records in databases
+
+DBMS: Body of knowledge and technology that has developed over several decades and is embodied in specialized software called a database management system, or DBMS, or more colloquially a “database system.”
+
+DBMS: creating and managing large amounts of data eﬃciently and allowing it to persist over long periods of time, safely.
+
+The Evolution of Database Systems
+
+ 1. Creation of databases and specification of their schemas
+ 2. Enable to querying  and modification 
+ 3. Storage over long period of time
+ 4. durability, and recovery 
+ 5. Atomicity and isolation.
+
+ Early Database Management Systems
+
+The first commercial DBMS 1960's
+File systems based, no guaranteed durability
+Inefficient access to data items with unknown location 
+No support a query language 
+Limited support for a schema 
+Not multiuser friendly and secure
+
+1. Banking systems: 
+2. Airline reservation systems: 
+3. Corporate record keeping: 
+
+The early DBMS
+  - required visualization of data 
+  - usage several diﬀerent data models 
+
+Relational Database Systems (Ted Codd in 1970):
+
+Not concerned with the storage structure.
+Use of a QL
+
+Smaller and Smaller Systems:
+
+An important trend is the use of documents,
+often tagged using XML (eXtensible Modeling Language).
+
+
+Bigger and Bigger Systems:
+
+1. Google holds petabytes of data gleaned from its crawl of the Web. 
+2. Satellites send down petabytes of information 
+3. Picures
+4. Movies
+5. Peer-to-peer file-sharing systems 
+
+
+Information Integration:
+
+Problem of of information integration:
+joining the information contained in many related databases into a whole
+
+Outline of Database-System Studies:
+
+The study of databases can be divided into five parts.
+- Part I: Relational Database Modeling
+- Part II: Relational Database Programming
+- Part III: Semistructured Data Modeling and Programming
+- Part IV: Database System Implementation
+- Part V: Modern Database System Issues
+
+* Chapter 2: The Relational Model of Data
+- What is a Data Model?
+
+    Data model is a notation for describing data or information.
+    The description generally consists of three parts:
+
+    1. /Structure of the data/.
+    2. /Operations on the data/.
+    3. /Constraints on the data/.
+
+Important Data Models:
+    1. The relational model, including object-relational extensions.
+    2. The semistructured-data model, including XML and related standards.
+
+The Semistructured Model in Brief:
+Semistructured data resembles trees or graphs, rather than tables or arrays.
+
+Other Data Models:
+
+Two effects of object-orientation on relations:
+
+1. Values can have structure
+2. Relations can have associated methods.
+
+** Basics of the Relational Model
+two-dimensional table 
+
+Attributes:
+The columns of a relation 
+
+Schemas:
+The name of a relation and the set of attributes 
+Movies(title, year, length, genre)
+
+Domains:
+Each component of each tuple be atomic
+no list, array, or any other type 
+Movies(title:string, year:integer, length:integer, genre:string)
+
+Equivalent Representations of a Relation:
+Relations are sets of tuples, not lists of tuples.
+
+Relation Instances:
+A relation may change over time.
+Expect to insert tuples for new instances
+Less common for the schema of a relation to change
+Schema change can be very expensive
+It may be difficult/impossible to generate appropriate values for the new component in the existing tuples.
+
+Keys of Relations:
+A set of attributes forms a key for a relation if we do not allow two tuples in a relation instance to have the same values in all the attributes of the key.
+
+** Defining a Relation Schema in SQL
+SQL is the principal language 
+There are two aspects to SQL:
+    1. The Data-Definition sublanguage 
+    2. The Data-Manipulation sublanguage 
+
+Relations in SQL:
+
+1. Stored relations: Tables
+2. Views: relations defined by a computation.
+3. Temporary tables
+
+The SQL CREATE TABLE statement declares the schema for a stored relation
+It gives a name for the table, its attributes, and their data types.
+It also allows us to declare a key, or even several keys, for a relation.
+
+Data Types:
+All attributes must have a data type.
+
+1. Character strings 
+   CHAR(n) 
+   VARCHAR(n) 
+   
+2. Bit strings of fixed or varying length.
+   BIT(n
+   BITVARYING(n) 
+
+3. BOOLEAN 
+   The possible values are TRUE, FALSE
+
+4. INT or INTEGER
+   SHORTINT: the number of bits permitted may be less
+
+5. Floating-point numbers:
+   FLOAT or REAL for 
+   A higher precision: DOUBLE PRECISION.
+   DECIMAL(n,d): n decimal digits, decimal point is d positions from the right
+
+6. Dates and times 
+
+*** Simple Table Declaration
+The simplest form of declaration of a relation schema consists of the key- words CREATE TABLE followed by the name of the relation and a parenthesized, comma-separated list of the attribute names and their types. Example 2 : The relation Movies with the schema given in Fig. 5 can be declared as in Fig. 7. The title is declared as a string of (up to) 100 characters.
+
+#+BEGIN_SRC sql
+CREATE TABLE Movies (
+    title CHAR(100),
+    year INT,
+    length INT,
+    genre CHAR(10),
+    studioName CHAR(30),
+    producerC# INT
+);
+#+END_SRC 
+
+*** Exercise 3.1
+
+#+BEGIN_SRC sql
+
+Product(maker, model, type)
+
+PC(model, speed, ram, hd, price)
+
+Laptop(model, speed, ram, hd, screen, price)
+
+Printer(model, color, type, price)
+
+#+END_SRC 
+
+A suitable schema for relation Product.
+#+BEGIN_SRC sql
+CREATE TABLE Product(
+    maker CHAR(20),
+    model INT(16),
+    type CHAR(1),
+    PRIMARY KEY (model),
+);
+#+END_SRC 
+
+A suitable schema for relation PC.
+
+#+BEGIN_SRC sql
+CREATE TABLE PC(
+    model INT,
+    speed INT,
+    ram INT,
+    price INT,
+    PRIMARY KEY (model),
+);
+#+END_SRC 
+
+c) A suitable schema for relation Laptop.
+#+BEGIN_SRC sql
+CREATE TABLE Laptop(
+    model INT,
+    speed INT,
+    ram INT,
+    screen INT,
+    price INT,
+    PRIMARY KEY (model),
+);
+#+END_SRC 
+
+
+d) A suitable schema for relation Printer.
+
+#+BEGIN_SRC sql
+CREATE TABLE Laptop(
+    model INT,
+    color CHAR(5),
+    type CHAR(1),
+    price INT,
+    PRIMARY KEY (model),
+);
+#+END_SRC 
+e) An alteration to your Printer schema from (d) to delete the attribute
+color.
+
+#+BEGIN_SRC sql
+  ALTER TABLE Printer DROP color;
+#+END_SRC 
+
+f) An alteration to your Laptop schema from (c) to add the attribute od
+(optical-disk type, e.g., cd or dvd). Let the default value for this attribute be ’none’ if the laptop does not have an optical disk.
+
+#+BEGIN_SRC sql
+  ALTER TABLE Laptop ADD od DEFAULT 'none;
+#+END_SRC 
+
+*** Example 3
+The name of this table is MovieStar, and it has four attributes.
+
+The number 255 is not the result of some weird notion of what typical addresses look like.
+A single byte can store integers between 0 and 255, so it is possible to represent a varyinglength character string of up to 255 bytes by a single byte for the count of characters plus the bytes to store the string itself.
+
+Commercial systems generally support longer varying-length strings, however.
+
+#+BEGIN_SRC sql
+CREATE TABLE MovieStar (
+    name CHAR(30),
+    address VARCHAR(255),
+    gender CHAR(1),
+    birthdate DATE
+);
+#+END_SRC
+
+
+
+*** Modifying Relation Shemas 
+We can remove the entire table, including all of its current tuples, or we could change the schema by adding or deleting attributes.
+
+We can delete a relation R by the SQL statement: `DROP TABLE R`;
+Relation R is no longer part of the database schema, and we can no longer access any of its tuples.
+
+More frequently than we would drop a relation that is part of a long-lived database, we may need to modify the schema of an existing relation.
+
+These modifications are done by a statement that begins with the keywords ALTER TABLE and the name of the relation. We then have several options, the most important of which are
+
+1. ADD followed by an attribute name and its data type.
+2. DROP followed by an attribute name.
+
+**** Example 4
+
+#+BEGIN_SRC sql
+    ALTER TABLE MovieStar ADD phone CHAR(16);
+    ALTER TABLE MovieStar DROP birthdate;
+#+END_SRC 
+
+*** Default Values
+In general, any place we declare an attribute and its data type, we may add the keyword DEFAULT and an appropriate value. That value is either NULL or a constant.
+
+Certain other values that are provided by the system, such as the current time, may also be options.
+
+**** Example 5:
+#+BEGIN_SRC sql
+
+ gender CHAR(1) DEFAULT ’?’,
+ birthdate DATE DEFAULT DATE ’0000-00-00’
+
+ALTER TABLE MovieStar ADD phone CHAR(16) DEFAULT ’unlisted’;
+#+END_SRC 
+
+
+
+
+*** Declaring Keys
+There are two ways to declare an attribute or set of attributes to be a key in the CREATE TABLE statement that defines a stored relation.
+
+    1. We may declare one attribute to be a key when that attribute is listed in the relation schema.
+
+    2. We may add to the list of items declared in the schema (which so far have only been attributes) an additional declaration that says a particular attribute or set of attributes forms the key.
+
+If the key consists of more than one attribute, we have to use method (2). If the key is a single attribute, either method may be used. There are two declarations that may be used to indicate keyness:
+
+    a) PRIMARY KEY, or
+
+    b) UNIQUE.
+
+The effect of declaring a set of attributes S to be a key for relation R either using PRIMARY KEY or UNIQUE is the following:
+
+- Two tuples in R cannot agree on all of the attributes in set S, unless one of them is NULL.
+  Any attempt to insert or update a tuple that violates this rule causes the DBMS to reject the action that caused the violation.
+
+In addition, if PRIMARY KEY is used, then attributes in S are not allowed to have NULL as a value for their components. Again, any attempt to violate this rule is rejected by the system. NULL is permitted if the set S is declared UNIQUE, however. A DBMS make make other distinctions between the two terms, if it wishes.
+
+**** Example 6 
+#+BEGIN_SRC sql
+CREATE TABLE MovieStar (
+    name CHAR(30) PRIMARY KEY,
+    address VARCHAR(255),
+    gender CHAR(1),
+    birthdate DATE
+);
+#+END_SRC 
+
+#+BEGIN_SRC sql
+CREATE TABLE MovieStar (
+    name CHAR(30),
+    address VARCHAR(255),
+    gender CHAR(1),
+    birthdate DATE,
+    PRIMARY KEY (name)
+);
+#+END_SRC 
+
+**** Example 7 :
+#+BEGIN_SRC sql
+CREATE TABLE Movies (
+    title CHAR(100),
+    year INT,
+    length INT,
+    genre CHAR(10),
+    studioName CHAR(30),
+    producerC# INT,
+    PRIMARY KEY (title, year)
+);
+#+END_SRC 
+
+** An Algebraic Query Language
+When a DBMS processes queries, a SQL query gets translated into relational algebra
+
+Why Do We Need a Special Query Language?
+Ease of programming and ability of the compiler to produce highly optimized code 
+
+What is an Algebra?
+An algebra consists of operators and atomic operands.
+Overview of Relational Algebra:
+Operations 
+a) Union, intersection, and difference 
+b) Selection and Projections: eliminates some rows and  some columns respectively.
+c) Join: combine the tuples of two relations, 
+d) RENAMING: Does not affect the tuples of a relation,
+but changes the relation schema, i.e., the names of the attributes
+and/or the name of the relation itself.
+
+Set Operations on Relations:
+union, intersection, and difference. 
+
+Projection:
+π_{A_1 ,A_2 ,...,A_n} (R) has only the columns for attributes A_1 , A_2 , ... , A_n of R. 
+
+Selection:
+σ_C(R): new relation with a subset of R’s tuples satisfying some condition C 
+
+Same schema as for R 
+
+Apply C to each tuple t of R by substituting, for each attribute A appearing in condition C, the component of t for attribute A.
+
+Cartesian Product:
+Natural Joins:
+Theta-Joins:
+
+Combining Operations to Form Queries:
+
+Naming and Renaming:
+Relationships Among Operations:
+A Linear Notation for Algebraic Expressions:
+
+** Constraints on Relations
+* Chapter 3:

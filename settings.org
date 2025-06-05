@@ -1,0 +1,18 @@
+
+
+* MySql
+#+BEGIN_SRC bash
+mysql -u root -p
+#+END_SRC 
+
+#+BEGIN_SRC sql
+SHOW DATABASES;
+USE data_base_name;
+SHOW TABELS;
+SELECT * FROM table_name;
+#+END_SRC 
+
+
+* Postgresql
+
+* Sqlite
